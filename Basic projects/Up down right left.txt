@@ -1,0 +1,49 @@
+#include <SPI.h>
+
+#include <Wire.h>
+
+#include <Adafruit_GFX.h>
+
+#include <Adafruit_SSD1306.h>
+
+#define OLED_RESET 4
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+
+
+int right_left=0;
+int up_down=0;
+
+void setup() {
+  Serial.begin(9600);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+
+  display.clearDisplay();
+
+  display.setTextColor(WHITE);
+
+}
+
+void loop() {
+
+
+  right_left = right_left + 2;
+  up_down = up_down + 1;
+  display.clearDisplay();
+
+  display.fillCircle(80,up_down,5,WHITE);
+  display.fillCircle(64,up_down,5,WHITE);
+  display.fillCircle(right_left,32,5,WHITE);
+  display.fillCircle(right_left,50,5,WHITE);
+  if (right_left > 128) {
+    right_left = 0;
+    up_down = 0;
+  }
+  Serial.println(up_down);
+  Serial.print(right_left);
+  display.display();
+
+}
